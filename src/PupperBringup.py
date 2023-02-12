@@ -30,8 +30,8 @@ class PupperBringup:
 
         rospy.sleep(0.1)
 
-        self.angle_sub = rospy.subscriber("/joint_angles", PupperJointAngles, cb=self.joint_cb)
-        self.foot_pos_sub = rospy.subscriber("/foot_positions", PupperFootPositions, cb=self.foot_pos_cb)
+        self.angle_sub = rospy.Subscriber("/joint_angles", PupperJointAngles, cb=self.joint_cb)
+        self.foot_pos_sub = rospy.Subscriber("/foot_positions", PupperFootPositions, cb=self.foot_pos_cb)
 
         self.joint_angles = None
         self.foot_positions = None
