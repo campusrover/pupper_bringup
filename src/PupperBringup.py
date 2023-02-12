@@ -40,7 +40,7 @@ class PupperBringup:
 
 
     def setup_hardware(self):
-
+        print("Setting up hardware interface")
         if self.FLAGS.log:
             today_string = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
             filename = os.path.join(
@@ -71,6 +71,7 @@ class PupperBringup:
         self.hardware_interface.serial_handle.reset_input_buffer()
         rospy.sleep(0.1)
         self.hardware_interface.activate()
+        print("Hardware interface activated")
         rospy.sleep(0.1)
 
 
@@ -99,7 +100,8 @@ class PupperBringup:
             #     self.hardware_interface.set_actuator_positions(self.joint_angles)
             # elif self.foot_positions is not None:
             #     self.hardware_interface.set_cartesian_positions(self.foot_positions)
-                
+            if self.FLAGS.verbose:
+                print("running!")
         print("Deactivating Robot")
         rospy.sleep(0.1)
         self.hardware_interface.deactivate()
@@ -111,6 +113,8 @@ if __name__ == "__main__":
     parser.add_argument("--zero", help="zero the motors", action="store_true")
     parser.add_argument("--log", help="log pupper data to file", action="store_true")
     parser.add_argument("--home", help="home the motors (moves the legs)", action="store_true")
+    parser.add_argument("--verbose", help="prints relevant data throughout operation", action="store_true")
+
     FLAGS = parser.parse_args()
     
     rospy.init_node("pupper_bringup")
