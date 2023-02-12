@@ -5,7 +5,7 @@ import time
 import rospy
 from pupper_bringup.msg import PupperJointAngles
 from pupper_bringup.msg import PupperFootPositions
-from djipupper import HardwareInterface
+from pupper_bringup import HardwareInterface
 import argparse
 
 import datetime
@@ -47,7 +47,7 @@ class PupperBringup:
                 DIRECTORY, FILE_DESCRIPTOR + "_" + today_string + ".csv"
             )
             self.log_file = open(filename, "w")
-            self.hardware_interface.write_logfile_header(log_file)
+            self.hardware_interface.write_logfile_header(self.log_file)
 
         if self.FLAGS.zero:
             self.hardware_interface.set_joint_space_parameters(0, 4.0, 4.0)
@@ -88,24 +88,13 @@ class PupperBringup:
             [msg.foot_0.y, msg.foot_1.y, msg.foot_2.y, msg.foot_3.y],
             [msg.foot_0.z, msg.foot_1.z, msg.foot_2.z, msg.foot_3.z]
         ])
-        self.hardware_interface.set_cartesian_positions(self.foot_positions)
-
-    def summarize_config(self):
-        # Print summary of configuration to console for tuning purposes
-        print("Summary of gait parameters:")
-        print("overlap time: ", self.config.overlap_time)
-        print("swing time: ", self.config.swing_time)
-        print("z clearance: ", self.config.z_clearance)
-        print("default height: ", self.config.default_z_ref)
-        print("x shift: ", config.x_shift)   
+        self.hardware_interface.set_cartesian_positions(self.foot_positions)  
 
     def run(self):
         while not rospy.is_shutdown():
             rospy.sleep(0.01)
             if self.FLAGS.log:
                 any_data = self.hardware_interface.log_incoming_data(self.log_file)
-                if any_data:
-                print(any_data['ts'])
             # if self.joint_angles is not None:
             #     self.hardware_interface.set_actuator_positions(self.joint_angles)
             # elif self.foot_positions is not None:

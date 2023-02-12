@@ -5,7 +5,7 @@ import msgpack
 import numpy as np
 from enum import Enum
 
-from djipupper.HardwareConfig import (
+from HardwareConfig import (
     MAX_CURRENT,
     POSITION_KP,
     POSITION_KD,
