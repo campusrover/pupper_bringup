@@ -5,7 +5,7 @@ import time
 import rospy
 from pupper_bringup.msg import PupperJointAngles
 from pupper_bringup.msg import PupperFootPositions
-from pupper_bringup import HardwareInterface
+import HardwareInterface
 import argparse
 
 import datetime
