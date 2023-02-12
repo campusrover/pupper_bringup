@@ -100,9 +100,6 @@ class PupperBringup:
             #     self.hardware_interface.set_actuator_positions(self.joint_angles)
             # elif self.foot_positions is not None:
             #     self.hardware_interface.set_cartesian_positions(self.foot_positions)
-            print("Hello")
-            if self.FLAGS.verbose:
-                print("running!")
         print("Deactivating Robot")
         rospy.sleep(0.1)
         self.hardware_interface.deactivate()
