@@ -76,6 +76,7 @@ class PupperBringup:
 
 
     def joint_cb(self, msg):
+        print(f"Recieved joint angles: \n\t{msg.header}\n")
         self.joint_angles = np.array([
             [msg.leg_0.x, msg.leg_1.x, msg.leg_2.x, msg.leg_3.x],
             [msg.leg_0.y, msg.leg_1.y, msg.leg_2.y, msg.leg_3.y],
@@ -84,6 +85,7 @@ class PupperBringup:
         self.hardware_interface.set_actuator_positions(self.joint_angles)
 
     def foot_pos_cb(self, msg):
+        print(f"Recieved foot positions: \n\t{msg.header}\n")
         self.foot_positions = np.array([
             [msg.foot_0.x, msg.foot_1.x, msg.foot_2.x, msg.foot_3.x],
             [msg.foot_0.y, msg.foot_1.y, msg.foot_2.y, msg.foot_3.y],
