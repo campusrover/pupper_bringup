@@ -1,0 +1,3 @@
+<launch>
+  <node name="pupper_bringup" pkg="pupper_bringup" type="PupperBringup.py"/>
+</launch>
