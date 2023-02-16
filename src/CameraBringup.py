@@ -6,7 +6,7 @@ import numpy
 import rospy
 from sensor_msgs.msg import Image
 
-bridge = CvBridge()
+# bridge = CvBridge()
 cam = cv2.VideoCapture(0)
 img_pub = rospy.Publisher("/image/raw", Image, queue_size=10)
 rate = rospy.Rate(30)
@@ -27,7 +27,7 @@ rate = rospy.Rate(30)
 while not rospy.is_shutdown():
     rate.sleep()
     ret, image = cam.read()
-    img_pub.publish(bridge.cv2_to_imgmsg(image))
+    # img_pub.publish(bridge.cv2_to_imgmsg(image))
     print(image.shape)
 
 cam.release()
