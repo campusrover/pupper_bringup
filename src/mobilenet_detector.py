@@ -15,7 +15,7 @@ from utils.bridge import numpy_to_imgmsg, imgmsg_to_numpy
 
 import os
 
-# dir = os.path.abspath(os.getcwd()) + "/nodes/update_nodes/cv_updates/models/model_files"
+dir = os.path.abspath(os.getcwd()) 
 
 class MobilenetDetector():
 
@@ -81,6 +81,7 @@ class MobilenetDetector():
 
 
 if __name__ == "__main__":
+  print(dir)
   rospy.init_node("detector")
   rate = rospy.Rate(10)
   detector = MobilenetDetector("person")
