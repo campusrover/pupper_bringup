@@ -12,6 +12,7 @@ from PIL import Image as im
 import numpy as np
 import cv2
 from utils.bridge import numpy_to_imgmsg, imgmsg_to_numpy
+from labels.coco_labels import COCO_LABELS
 
 import os
 
@@ -28,7 +29,7 @@ class MobilenetDetector():
     self.interpreter.allocate_tensors()
     self.size = common.input_size(self.interpreter)
 
-    self.make_label_dict()
+    self.label_dict = COCO_LABELS
     self.pub = rospy.Publisher("/boxes", CompressedImage, queue_size = 10)
     self.img_sub = rospy.Subscriber("/image/compressed", CompressedImage, self.img_cb)
 
@@ -41,16 +42,16 @@ class MobilenetDetector():
     self.pub.publish(numpy_to_imgmsg(boxes))
 
 
-  def make_label_dict(self):
-    self.label_dict = {}
-    with open("src/labels/coco_labels.txt") as f:
-      lines = f.readlines()
+  # def make_label_dict(self):
+  #   self.label_dict = {}
+  #   with open("src/labels/coco_labels.txt") as f:
+  #     lines = f.readlines()
       
-      for line in lines:
-        split = line.split()
-        id, label = split[0], split[1]
-        self.label_dict[int(id)] = label
-      print(self.label_dict)
+  #     for line in lines:
+  #       split = line.split()
+  #       id, label = split[0], split[1]
+  #       self.label_dict[int(id)] = label
+  #     print(self.label_dict)
 
 
   def draw_boxes(self, img, output):
