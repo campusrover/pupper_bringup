@@ -50,19 +50,11 @@ class PupperBringup:
 
 
     def joint_cb(self, msg):
-        self.joint_angles = np.array([
-            [msg.leg_0.x, msg.leg_1.x, msg.leg_2.x, msg.leg_3.x],
-            [msg.leg_0.y, msg.leg_1.y, msg.leg_2.y, msg.leg_3.y],
-            [msg.leg_0.z, msg.leg_1.z, msg.leg_2.z, msg.leg_3.z]
-        ])
+        self.joint_angles = np.array([[leg.x, leg.y, leg.z] for leg in msg.joint_angles]).T
         self.hardware_interface.set_actuator_positions(self.joint_angles)
 
     def foot_pos_cb(self, msg):
-        self.foot_positions = np.array([
-            [msg.foot_0.x, msg.foot_1.x, msg.foot_2.x, msg.foot_3.x],
-            [msg.foot_0.y, msg.foot_1.y, msg.foot_2.y, msg.foot_3.y],
-            [msg.foot_0.z, msg.foot_1.z, msg.foot_2.z, msg.foot_3.z]
-        ])
+        self.foot_positions = np.array([[foot.x, foot.y, foot.z] for foot in msg.foot_positions]).T
         self.hardware_interface.set_cartesian_positions(self.foot_positions)  
 
     def run(self):
