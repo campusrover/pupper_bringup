@@ -12,3 +12,5 @@ img_pub = rospy.Publisher("/image/compressed", CompressedImage, queue_size=10)
 while not rospy.is_shutdown():
     ret, image = cam.read()
     print(type(image))
+
+cam.release()
