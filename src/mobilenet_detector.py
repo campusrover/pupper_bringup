@@ -8,7 +8,7 @@ from pupper_bringup.msg import Boxes
 import pycoral.adapters.common as common
 import pycoral.adapters.detect as detect
 import tflite_runtime.interpreter as tflite
-from utils.detector_utils import output_to_boxesmsg, draw_boxes
+from utils.detector_utils import draw_boxes
 
 from PIL import Image as im
 import numpy as np
@@ -19,6 +19,20 @@ from utils.coco_labels import COCO_LABELS
 import os
 
 # dir = os.path.abspath(os.getcwd()) 
+
+
+
+def output_to_boxesmsg(output):
+  boxes = []
+  for obj in output:
+    box = Box()
+    box.xmin, box.xmax, box.ymin, box.ymax = obj.bbox.xmin, obj.bbox.xmax, obj.bbox.ymin, obj.bbox.ymax
+    box.score = obj.score
+    box.label = COCO_LABELS[obj.id]
+    boxes.append(box)
+  boxes_msg = Boxes()
+  boxes_msg.boxes = boxes
+  return boxes_msg
 
 class MobilenetDetector():
 
