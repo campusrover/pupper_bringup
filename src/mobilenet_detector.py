@@ -15,12 +15,11 @@ from utils.bridge import numpy_to_imgmsg, imgmsg_to_numpy
 
 import os
 
-dir = os.path.abspath(os.getcwd()) + "/nodes/update_nodes/cv_updates/models/model_files"
+# dir = os.path.abspath(os.getcwd()) + "/nodes/update_nodes/cv_updates/models/model_files"
 
 class MobilenetDetector():
 
   def __init__(self, detection_key: str):
-    super().__init__()
     self.key = detection_key
 
     self.interpreter = tflite.Interpreter("models/tf2_ssd_mobilenet_v2_coco17_ptq_edgetpu.tflite",
@@ -84,7 +83,8 @@ class MobilenetDetector():
 if __name__ == "__main__":
   rospy.init_node("detector")
   rate = rospy.Rate(10)
-  detector = MobilenetDetector()
+  detector = MobilenetDetector("person")
+  rospy.spin()
 
 
 
