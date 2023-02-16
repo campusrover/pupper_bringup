@@ -13,7 +13,7 @@ def numpy_to_imgmsg(im):
     msg.header.stamp = rospy.Time.now()
     msg.height = im.shape[0]
     msg.width = im.shape[1]
-    msg.encoding = "rgb8"
+    msg.encoding = "bgr8"
     msg.is_bigendian = False
     msg.step = 3 * msg.width
     msg.data = im.tobytes()
