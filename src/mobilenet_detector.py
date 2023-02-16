@@ -33,6 +33,8 @@ class MobilenetDetector():
     self.pub = rospy.Publisher("/boxes", CompressedImage, queue_size = 10)
     self.img_sub = rospy.Subscriber("/image/compressed", CompressedImage, self.img_cb)
 
+    self.img = None
+
   def img_cb(self, msg):
     self.img = np_arr = imgmsg_to_numpy(msg)
     
@@ -66,17 +68,17 @@ class MobilenetDetector():
     return img
 
   def run_model(self):
+    if self.img is not None:
+      img = im.fromarray(self.img).convert('RGB').resize(self.size, im.ANTIALIAS)
+      
+      common.set_input(self.interpreter, img)
+      self.interpreter.invoke()
 
-    img = im.fromarray(img).convert('RGB').resize(self.size, im.ANTIALIAS)
-    
-    common.set_input(self.interpreter, img)
-    self.interpreter.invoke()
+      output, np_arr =  detect.get_objects(self.interpreter, score_threshold=0.5), np.array(img)
 
-    output, np_arr =  detect.get_objects(self.interpreter, score_threshold=0.5), np.array(img)
+      boxes = self.draw_boxes(np_arr, output)
 
-    boxes = self.draw_boxes(np_arr, output)
-
-    self.pub.publish(numpy_to_imgmsg(boxes))
+      self.pub.publish(numpy_to_imgmsg(boxes))
 
   
 
