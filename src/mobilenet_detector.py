@@ -30,7 +30,7 @@ class MobilenetDetector():
     self.size = common.input_size(self.interpreter)
 
     self.label_dict = COCO_LABELS
-    self.pub = rospy.Publisher("/boxes", CompressedImage, queue_size = 10)
+    self.pub = rospy.Publisher("/boxes/compressed", CompressedImage, queue_size = 10)
     self.img_sub = rospy.Subscriber("/image/compressed", CompressedImage, self.img_cb)
 
     self.img = None
