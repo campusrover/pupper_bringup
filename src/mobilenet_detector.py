@@ -39,19 +39,6 @@ class MobilenetDetector():
     self.img = np_arr = imgmsg_to_numpy(msg)
     
 
-
-  # def make_label_dict(self):
-  #   self.label_dict = {}
-  #   with open("src/labels/coco_labels.txt") as f:
-  #     lines = f.readlines()
-      
-  #     for line in lines:
-  #       split = line.split()
-  #       id, label = split[0], split[1]
-  #       self.label_dict[int(id)] = label
-  #     print(self.label_dict)
-
-
   def draw_boxes(self, img, output):
     font = cv2.FONT_HERSHEY_SIMPLEX
     fontScale = 1
@@ -59,7 +46,7 @@ class MobilenetDetector():
     thickness = 1
     for out in output:
       bbox = out.bbox
-      label = self.label_dict[out.id]
+      label = self.label_dict[out.id+1]
       img = cv2.rectangle(img, (bbox.xmin, bbox.ymin), (bbox.xmax, bbox.ymax), (255,0,0), 2)
       org = (bbox.xmin, bbox.ymin)
       img = cv2.putText(img, label, org, font, 
