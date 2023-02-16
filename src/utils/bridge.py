@@ -13,4 +13,4 @@ def numpy_to_imgmsg(im):
 
 def imgmsg_to_numpy(msg):
     np_arr = np.fromstring(msg.data, np.uint8)
-    return cv2.imdecode(np_arr, cv2.CV_LOAD_IMAGE_COLOR)
+    return cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
