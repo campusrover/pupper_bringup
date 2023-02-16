@@ -15,14 +15,14 @@ from utils.bridge import numpy_to_imgmsg, imgmsg_to_numpy
 
 import os
 
-dir = os.path.abspath(os.getcwd()) 
+# dir = os.path.abspath(os.getcwd()) 
 
 class MobilenetDetector():
 
   def __init__(self, detection_key: str):
     self.key = detection_key
 
-    self.interpreter = tflite.Interpreter("models/tf2_ssd_mobilenet_v2_coco17_ptq_edgetpu.tflite",
+    self.interpreter = tflite.Interpreter("src/models/tf2_ssd_mobilenet_v2_coco17_ptq_edgetpu.tflite",
       experimental_delegates=[tflite.load_delegate('libedgetpu.so.1')])
 
     self.interpreter.allocate_tensors()
@@ -43,7 +43,7 @@ class MobilenetDetector():
 
 
   def make_label_dict(self):
-    with open("labels/coco_labels.txt") as f:
+    with open("src/labels/coco_labels.txt") as f:
       self.label_dict = {}
       lines = f.readlines()
 
@@ -81,7 +81,7 @@ class MobilenetDetector():
 
 
 if __name__ == "__main__":
-  print(dir)
+  # print(dir)
   rospy.init_node("detector")
   rate = rospy.Rate(10)
   detector = MobilenetDetector("person")
