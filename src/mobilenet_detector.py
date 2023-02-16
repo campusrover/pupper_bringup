@@ -34,12 +34,8 @@ class MobilenetDetector():
     self.img_sub = rospy.Subscriber("/image/compressed", CompressedImage, self.img_cb)
 
   def img_cb(self, msg):
-    np_arr = imgmsg_to_numpy(msg)
-    output, np_arr =  self.run_model(np_arr)
-
-    boxes = self.draw_boxes(np_arr, output)
-
-    self.pub.publish(numpy_to_imgmsg(boxes))
+    self.img = np_arr = imgmsg_to_numpy(msg)
+    
 
 
   # def make_label_dict(self):
@@ -69,14 +65,20 @@ class MobilenetDetector():
 
     return img
 
-  def run_model(self, image):
+  def run_model(self):
 
-    img = im.fromarray(image).convert('RGB').resize(self.size, im.ANTIALIAS)
+    img = im.fromarray(img).convert('RGB').resize(self.size, im.ANTIALIAS)
     
     common.set_input(self.interpreter, img)
     self.interpreter.invoke()
 
-    return detect.get_objects(self.interpreter, score_threshold=0.5), np.array(img)
+    output, np_arr =  detect.get_objects(self.interpreter, score_threshold=0.5), np.array(img)
+
+    boxes = self.draw_boxes(np_arr, output)
+
+    self.pub.publish(numpy_to_imgmsg(boxes))
+
+  
 
 
 if __name__ == "__main__":
@@ -84,7 +86,9 @@ if __name__ == "__main__":
   rospy.init_node("detector")
   rate = rospy.Rate(10)
   detector = MobilenetDetector("person")
-  rospy.spin()
+  while not rospy.is_shutdown():
+    rate.sleep()
+    detector.run_model()
 
 
 
