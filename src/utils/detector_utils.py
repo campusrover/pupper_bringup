@@ -1,5 +1,5 @@
 from pupper_bringup.msg import Box, Boxes
-from coco_labels import COCO_LABELS
+from utils.coco_labels import COCO_LABELS
 import cv2
 
 
