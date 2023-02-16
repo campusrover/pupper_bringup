@@ -1,4 +1,4 @@
 <launch>
   <node name="pupper_camera" pkg="pupper_bringup" type="CameraBringup.py"/>
-  <node name="detector" pkg="pupper_bringup" type="mobilenet_detector.py"
+  <node name="detector" pkg="pupper_bringup" type="mobilenet_detector.py"/>
 </launch>
