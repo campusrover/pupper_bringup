@@ -3,25 +3,21 @@
 import cv2
 import numpy as np
 import rospy
-from sensor_msgs.msg import Image
+from sensor_msgs.msg import CompressedImage
 
 
 
 
 def numpy_to_imgmsg(im):
-    msg = Image()
+    msg = CompressedImage()
     msg.header.stamp = rospy.Time.now()
-    msg.height = im.shape[0]
-    msg.width = im.shape[1]
-    msg.encoding = "bgr8"
-    msg.is_bigendian = False
-    msg.step = 3 * msg.width
-    msg.data = im.tobytes()
+    msg.format = "jpeg"
+    msg.data = np.array(cv2.imencode('.jpg', im)[1]).tobytes()
     return msg
 
 rospy.init_node("pupper_camera_bringup")
 cam = cv2.VideoCapture(0)
-img_pub = rospy.Publisher("/image/raw", Image, queue_size=10)
+img_pub = rospy.Publisher("/image/compressed", CompressedImage, queue_size=10)
 rate = rospy.Rate(30)
 
 
