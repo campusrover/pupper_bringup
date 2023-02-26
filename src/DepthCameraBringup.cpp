@@ -2,9 +2,9 @@
 #include <memory>
 #include <string>
 #include "ros/ros.h"
-#include <sensor_msgs/msg/point_cloud.h>
+#include <sensor_msgs/PointCloud.h>
 
-#include <std_msgs/msg/float32_multi_array.h>
+#include <std_msgs/Float32MultiArray.h>
 #include <vector>
 
 #include "ArducamTOFCamera.hpp"
