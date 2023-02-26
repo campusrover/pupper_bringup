@@ -24,6 +24,4 @@ if __name__ == "__main__":
             cam.releaseFrame(frame)
             img = buf.astype(np.float32)
             pub.publish(numpy_to_imgmsg(img))
-            print(img.shape)
-            print(img[0])
     cam.stop()
