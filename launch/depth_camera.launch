@@ -1,0 +1,3 @@
+<launch>
+  <node name="pupper_depth_camera" pkg="pupper_bringup" type="DepthCameraBringup.py"/>
+</launch>
