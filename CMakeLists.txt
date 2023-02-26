@@ -122,7 +122,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 include_directories(
 # include
-  ${catkin_INCLUDE_DIRS}
+  BEFORE /usr/include/c /usr/include/cpp ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a C++ library
@@ -153,6 +153,7 @@ add_executable(${PROJECT_NAME} src/DepthCameraBringup.cpp)
 ## Specify libraries to link a library or executable target against
 target_link_libraries(${PROJECT_NAME}
   ${catkin_LIBRARIES}
+  ArducamDepthCamera
 )
 
 #############
