@@ -9,6 +9,7 @@ from utils.bridge import numpy_to_imgmsg
 
 
 if __name__ == "__main__":
+    rospy.init_node("depth_camera")
 
     pub = rospy.Publisher("/depth_camera", CompressedImage, queue_size=1)
 
