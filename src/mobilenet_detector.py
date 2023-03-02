@@ -3,7 +3,7 @@
 import rospy
 from sensor_msgs.msg import Image
 from sensor_msgs.msg import CompressedImage
-from pupper_msgs.msg import Boxes
+# from pupper_msgs.msg import Boxes
 
 import pycoral.adapters.common as common
 import pycoral.adapters.detect as detect
@@ -90,7 +90,7 @@ if __name__ == "__main__":
   detector = MobilenetDetector("person")
   while not rospy.is_shutdown():
     rate.sleep()
-    detector.run_model_boxes()
+    detector.run_model_bboximg()
 
 
 
