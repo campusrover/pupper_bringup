@@ -3,8 +3,8 @@
 import numpy as np
 import time
 import rospy
-from pupper_bringup.msg import PupperJointAngles
-from pupper_bringup.msg import PupperFootPositions
+from pupper_msgs.msg import PupperJointAngles
+from pupper_msgs.msg import PupperFootPositions
 import HardwareInterface
 import argparse
 
