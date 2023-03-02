@@ -11,8 +11,6 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   rospy
   std_msgs
-  message_generation
-  geometry_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -72,11 +70,11 @@ find_package(catkin REQUIRED COMPONENTS
 # )
 
 ## Generate added messages and services with any dependencies listed here
-generate_messages(
-  DEPENDENCIES
-  geometry_msgs
-  std_msgs
-)
+# generate_messages(
+#   DEPENDENCIES
+#   geometry_msgs
+#   std_msgs
+# )
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -107,12 +105,12 @@ generate_messages(
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
-catkin_package(
-  INCLUDE_DIRS include
-  LIBRARIES pupper_bringup
-  CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
-  DEPENDS system_lib
-)
+# catkin_package(
+#   INCLUDE_DIRS include
+#   LIBRARIES pupper_bringup
+#   CATKIN_DEPENDS roscpp rospy std_msgs message_runtime
+#   DEPENDS system_lib
+# )
 
 ###########
 ## Build ##
@@ -120,10 +118,10 @@ catkin_package(
 
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
-include_directories(
-# include
-  ${catkin_INCLUDE_DIRS}
-)
+# include_directories(
+# # include
+#   ${catkin_INCLUDE_DIRS}
+# )
 
 ## Declare a C++ library
 # add_library(${PROJECT_NAME}
