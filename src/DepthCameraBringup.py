@@ -12,6 +12,7 @@ if __name__ == "__main__":
     rospy.init_node("depth_camera")
     pub = rospy.Publisher("/depth_cam/compressed", CompressedImage, queue_size=1)
     cam = ac.ArducamCamera()
+    rate = rospy.Rate(30)
     if cam.init(ac.TOFConnect.CSI,0) != 0 :
         print("initialization failed")
     if cam.start(ac.TOFOutput.RAW) != 0 :
@@ -19,6 +20,7 @@ if __name__ == "__main__":
 
     while not rospy.is_shutdown():
         frame = cam.requestFrame(200)
+        rate.sleep()
         if frame != None:
             buf = frame.getRawData()
             cam.releaseFrame(frame)
