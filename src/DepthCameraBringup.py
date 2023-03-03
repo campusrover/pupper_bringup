@@ -19,7 +19,9 @@ if __name__ == "__main__":
             raise Exception("initialization failed")
         if cam.start(ac.TOFOutput.RAW) != 0 :
             raise Exception("Failed to start camera")
-
+    except Exception as e:
+        rospy.logerr(str(e))
+    else:
         while not rospy.is_shutdown():
             frame = cam.requestFrame(200)
             rate.sleep()
@@ -31,7 +33,5 @@ if __name__ == "__main__":
                 pub.publish(numpy_to_imgmsg(img))
             else:
                 rospy.logwarn("Did not recieve frame")
-
-    except Exception as e:
-        rospy.logerr(str(e))
-    # cam.stop()
+    finally:
+        cam.stop()
