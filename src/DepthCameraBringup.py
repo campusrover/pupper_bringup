@@ -25,8 +25,8 @@ if __name__ == "__main__":
             buf = frame.getRawData()
             cam.releaseFrame(frame)
             img = buf.astype(np.float32)
-            rospy.loginfo(img.shape)
-            # pub.publish(numpy_to_imgmsg(img))
+            # rospy.loginfo(img.shape)
+            pub.publish(numpy_to_imgmsg(img))
         else:
             rospy.logwarn("Did not recieve frame")
     cam.stop()
