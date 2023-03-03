@@ -9,12 +9,12 @@ import numpy as np
 import ArducamDepthCamera as ac
 
 if __name__ == "__main__":
-    
+    rospy.init_node("depth_camera")
+    pub = rospy.Publisher("/depth_cam/compressed", CompressedImage, queue_size=1)
+    cam = ac.ArducamCamera()
+    rate = rospy.Rate(30)
     try:
-        rospy.init_node("depth_camera")
-        pub = rospy.Publisher("/depth_cam/compressed", CompressedImage, queue_size=1)
-        cam = ac.ArducamCamera()
-        rate = rospy.Rate(30)
+        
         if cam.init(ac.TOFConnect.CSI,1) != 0 :
             raise Exception("initialization failed")
         if cam.start(ac.TOFOutput.RAW) != 0 :
