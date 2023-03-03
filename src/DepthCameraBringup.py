@@ -33,5 +33,5 @@ if __name__ == "__main__":
                 pub.publish(numpy_to_imgmsg(img))
             else:
                 rospy.logwarn("Did not recieve frame")
-    finally:
-        cam.stop()
+    # finally:
+    #     cam.stop()
