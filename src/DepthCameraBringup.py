@@ -34,5 +34,4 @@ if __name__ == "__main__":
 
     except Exception as e:
         rospy.logerr(str(e))
-    finally:
-        cam.stop()
+    cam.stop()
