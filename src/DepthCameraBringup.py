@@ -28,7 +28,7 @@ def process_frame(depth_buf: np.ndarray, amplitude_buf: np.ndarray) -> np.ndarra
 if __name__ == "__main__":
     rospy.init_node("depth_camera")
     pub = rospy.Publisher("/depth_cam/compressed", CompressedImage, queue_size=1)
-    dev = int(rospy.param("dev"))
+    dev = rospy.get_param("dev")
     cam = ac.ArducamCamera()
     rate = rospy.Rate(30)
         
