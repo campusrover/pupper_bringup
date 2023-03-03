@@ -16,9 +16,9 @@ if __name__ == "__main__":
     try:
         
         if cam.init(ac.TOFConnect.CSI,1) != 0 :
-            raise Exception("initialization failed")
+            rospy.logerr("initialization failed")
         if cam.start(ac.TOFOutput.RAW) != 0 :
-            raise Exception("Failed to start camera")
+            rospy.logerr("Failed to start camera")
     except Exception as e:
         rospy.logerr(str(e))
     else:
