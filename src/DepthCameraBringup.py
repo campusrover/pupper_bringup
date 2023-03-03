@@ -31,7 +31,7 @@ if __name__ == "__main__":
     cam = ac.ArducamCamera()
     rate = rospy.Rate(30)
         
-    if cam.init(ac.TOFConnect.CSI,1) != 0 :
+    if cam.init(ac.TOFConnect.CSI,0) != 0 :
         rospy.logerr("initialization failed")
     if cam.start(ac.TOFOutput.DEPTH) != 0 :
         rospy.logerr("Failed to start camera")
