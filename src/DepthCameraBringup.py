@@ -33,7 +33,7 @@ if __name__ == "__main__":
         
     if cam.init(ac.TOFConnect.CSI,1) != 0 :
         rospy.logerr("initialization failed")
-    if cam.start(ac.TOFOutput.RAW) != 0 :
+    if cam.start(ac.TOFOutput.DEPTH) != 0 :
         rospy.logerr("Failed to start camera")
     
     cam.setControl(ac.TOFControl.RANG,MAX_DISTANCE)
