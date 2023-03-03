@@ -13,20 +13,27 @@ if __name__ == "__main__":
     pub = rospy.Publisher("/depth_cam/compressed", CompressedImage, queue_size=1)
     cam = ac.ArducamCamera()
     rate = rospy.Rate(30)
-    if cam.init(ac.TOFConnect.CSI,1) != 0 :
-        rospy.logerr("initialization failed")
-    if cam.start(ac.TOFOutput.RAW) != 0 :
-        rospy.logerr("Failed to start camera")
+    try:
+        
+        if cam.init(ac.TOFConnect.CSI,1) != 0 :
+            rospy.logerr()
+            raise Exception("initialization failed")
+        if cam.start(ac.TOFOutput.RAW) != 0 :
+            raise Exception("Failed to start camera")
 
-    while not rospy.is_shutdown():
-        frame = cam.requestFrame(200)
-        rate.sleep()
-        if frame != None:
-            buf = frame.getRawData()
-            cam.releaseFrame(frame)
-            img = buf.astype(np.float32)
-            # rospy.loginfo(img.shape)
-            pub.publish(numpy_to_imgmsg(img))
-        else:
-            rospy.logwarn("Did not recieve frame")
-    cam.stop()
+        while not rospy.is_shutdown():
+            frame = cam.requestFrame(200)
+            rate.sleep()
+            if frame != None:
+                buf = frame.getRawData()
+                cam.releaseFrame(frame)
+                img = buf.astype(np.float32)
+                # rospy.loginfo(img.shape)
+                pub.publish(numpy_to_imgmsg(img))
+            else:
+                rospy.logwarn("Did not recieve frame")
+                
+    except Exception as e:
+        rospy.logerr(e)
+    finally:
+        cam.stop()
