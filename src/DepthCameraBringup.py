@@ -14,9 +14,9 @@ if __name__ == "__main__":
     cam = ac.ArducamCamera()
     rate = rospy.Rate(30)
     if cam.init(ac.TOFConnect.CSI,0) != 0 :
-        print("initialization failed")
+        rospy.logerr("initialization failed")
     if cam.start(ac.TOFOutput.RAW) != 0 :
-        print("Failed to start camera")
+        rospy.logerr("Failed to start camera")
 
     while not rospy.is_shutdown():
         frame = cam.requestFrame(200)
@@ -25,6 +25,8 @@ if __name__ == "__main__":
             buf = frame.getRawData()
             cam.releaseFrame(frame)
             img = buf.astype(np.float32)
-            print(img.shape)
+            rospy.loginfo(img.shape)
             # pub.publish(numpy_to_imgmsg(img))
+        else:
+            rospy.loginfo("Did not recieve frame")
     cam.stop()
