@@ -1,3 +1,5 @@
 <launch>
+  <arg name="dev" default=0/>
+  <param name="dev" value="$(arg dev)"/>
   <node name="pupper_depth_camera" pkg="pupper_bringup" type="DepthCameraBringup.py" output="screen"/>
 </launch>

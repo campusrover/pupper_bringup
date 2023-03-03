@@ -28,10 +28,11 @@ def process_frame(depth_buf: np.ndarray, amplitude_buf: np.ndarray) -> np.ndarra
 if __name__ == "__main__":
     rospy.init_node("depth_camera")
     pub = rospy.Publisher("/depth_cam/compressed", CompressedImage, queue_size=1)
+    dev = int(rospy.param("dev"))
     cam = ac.ArducamCamera()
     rate = rospy.Rate(30)
         
-    if cam.init(ac.TOFConnect.CSI,0) != 0 :
+    if cam.init(ac.TOFConnect.CSI,dev) != 0 :
         rospy.logerr("initialization failed")
     if cam.start(ac.TOFOutput.DEPTH) != 0 :
         rospy.logerr("Failed to start camera")
