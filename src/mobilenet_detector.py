@@ -78,8 +78,6 @@ class MobilenetDetector():
       boxes = output_to_boxesmsg(output)
       boxes.header.stamp = rospy.Time.now()
 
-      rospy.loginfo(boxstr(boxes.boxes[0]))
-
       self.boxes_pub.publish(boxes)
 
   
