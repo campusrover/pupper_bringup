@@ -1,0 +1,5 @@
+<launch>
+    <include file="$(find pupper_bringup)/launch/camera.launch"/>
+    <include file="$(find pupper_bringup)/launch/camera.launch"/>
+    <include file="$(find pupper_bringup)/launch/cv_detection.launch"/>
+</launch>

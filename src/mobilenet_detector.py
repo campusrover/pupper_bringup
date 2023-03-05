@@ -18,8 +18,8 @@ from utils.coco_labels import COCO_LABELS
 
 import os
 
-# dir = os.path.abspath(os.getcwd()) 
-
+dir = os.path.abspath(os.getcwd()) 
+rospy.loginfo(dir)
 
 
 
