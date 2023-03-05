@@ -91,7 +91,7 @@ if __name__ == "__main__":
   detector = MobilenetDetector("person", model_dir)
   while not rospy.is_shutdown():
     rate.sleep()
-    detector.run_model_bboximg()
+    detector.run_model_boxes()
 
 
 
