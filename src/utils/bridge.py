@@ -25,7 +25,6 @@ def numpy_to_pcmsg(depth, amplitude):
     pc_msg.points = [Point32()]*43200
     pc_msg.channels = [ChannelFloat32()]
     pc_msg.channels[0].values = [0]*43200
-    pos
     for row_idx in range(180):
         for col_idx in range(240):
             if amplitude[row_idx][col_idx]> 30:
