@@ -1,6 +1,14 @@
 from pupper_msgs.msg import Box, Boxes
 from utils.coco_labels import COCO_LABELS
+import rospy
 import cv2
+
+
+def boxstr(box):
+    boxs = f"Label: {box.label}\n"
+    boxs += f"x: [{box.xmin}, {box.xmax}], y: [{box.ymin}, {box.ymax}]\n"
+    boxs += f"Score: {box.score}\n"
+    return boxs
 
 
 def output_to_boxesmsg(output):
@@ -16,6 +24,8 @@ def output_to_boxesmsg(output):
     boxes_msg = Boxes()
     boxes_msg.boxes = boxes
     return boxes_msg
+
+
 
 
 def draw_boxes(img, output):
