@@ -8,7 +8,8 @@ def output_to_boxesmsg(output):
 
     for obj in output:
         box = Box()
-        box.xmin, box.xmax, box.ymin, box.ymax = obj.bbox.xmin, obj.bbox.xmax, obj.bbox.ymin, obj.bbox.ymax
+        xmin, xmax, ymin, ymax = int(obj.bbox.xmin), int(obj.bbox.xmax), int(obj.bbox.ymin), int(obj.bbox.ymax)
+        box.xmin, box.xmax, box.ymin, box.ymax = xmin, xmax, ymin, ymax
         box.score = obj.score
         box.label = COCO_LABELS[obj.id+1]
         boxes.append(box)
