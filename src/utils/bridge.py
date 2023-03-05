@@ -4,8 +4,8 @@ import cv2
 from sensor_msgs.msg import Image, CompressedImage, PointCloud, ChannelFloat32
 from geometry_msgs.msg import Point32
 
-fx = 240 / (2 * np.tan(0.5 * np.pi * 64.3 / 180))
-fy = 180 / (2 * np.tan(0.5 * np.pi * 50.4 / 180))
+fx = 240 / (2 * np.tan((0.5 * np.pi) * (64.3 / 180)))
+fy = 180 / (2 * np.tan((0.5 * np.pi) * (50.4 / 180)))
 
 
 def numpy_to_imgmsg(im):
