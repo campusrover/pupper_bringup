@@ -29,10 +29,10 @@ def numpy_to_pcmsg(depth, amplitude):
                 pc_msg.points[col_idx].y = ((90 - row_idx) / fy) * zz
                 pc_msg.points[col_idx].z = zz
                 pc_msg.channels[0].values[col_idx] = depth[col_idx]
-            else:
-                pc_msg.points[col_idx].x = 0
-                pc_msg.points[col_idx].y = 0
-                pc_msg.points[col_idx].z = 0
-                pc_msg.channels[0].values[col_idx] = 0
+            # else:
+            #     pc_msg.points[col_idx].x = 0
+            #     pc_msg.points[col_idx].y = 0
+            #     pc_msg.points[col_idx].z = 0
+            #     pc_msg.channels[0].values[col_idx] = 0
     pc_msg.header.stamp = rospy.Time.now()
     return pc_msg
