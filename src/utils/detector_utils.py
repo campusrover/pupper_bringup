@@ -1,4 +1,4 @@
-# from pupper_bringup.msg import Box, Boxes
+from pupper_msgs.msg import Box, Boxes
 from utils.coco_labels import COCO_LABELS
 import cv2
 
