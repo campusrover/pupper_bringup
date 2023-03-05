@@ -9,6 +9,7 @@ import pycoral.adapters.common as common
 import pycoral.adapters.detect as detect
 import tflite_runtime.interpreter as tflite
 from utils.detector_utils import draw_boxes, output_to_boxesmsg
+from pupper_msgs.msg import Boxes
 
 from PIL import Image as im
 import numpy as np
