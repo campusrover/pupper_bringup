@@ -85,7 +85,7 @@ class MobilenetDetector():
 
 if __name__ == "__main__":
   # print(dir)
-  rospy.init_node("detector")
+  rospy.init_node("pupper_detector")
   model_dir = rospy.get_param("model_dir")
   rate = rospy.Rate(10)
   detector = MobilenetDetector("person", model_dir)

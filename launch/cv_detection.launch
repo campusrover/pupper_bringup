@@ -1,5 +1,5 @@
 <launch>
   <param name="model_dir" value="$(find pupper_bringup)/src/models/tf2_ssd_mobilenet_v2_coco17_ptq_edgetpu.tflite"/>
   <node name="pupper_camera" pkg="pupper_bringup" type="CameraBringup.py"/>
-  <node name="detector" pkg="pupper_bringup" type="mobilenet_detector.py"/>
+  <node name="pupper_detector" pkg="pupper_bringup" type="mobilenet_detector.py"/>
 </launch>
