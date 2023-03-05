@@ -39,4 +39,5 @@ def numpy_to_pcmsg(depth, amplitude):
                 pc_msg.points[col_idx].z = 0
                 pc_msg.channels[0].values[col_idx] = 0
     pc_msg.header.stamp = rospy.Time.now()
+    pc_msg.header.frame_id = "pointcloud"
     return pc_msg
