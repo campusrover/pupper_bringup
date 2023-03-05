@@ -23,16 +23,16 @@ def numpy_to_pcmsg(depth, amplitude):
     pc_msg = PointCloud()
     for row_idx in range(180):
         for col_idx in range(240):
-            if amplitude[col_idx].any() > 30:
-                zz = depth[col_idx]
+            if amplitude[row_idx][col_idx]> 30:
+                zz = depth[row_idx][col_idx]
                 pc_msg.points[col_idx].x = (((120 - col_idx)) / fx) * zz
                 pc_msg.points[col_idx].y = ((90 - row_idx) / fy) * zz
                 pc_msg.points[col_idx].z = zz
                 pc_msg.channels[0].values[col_idx] = depth[col_idx]
-            # else:
-            #     pc_msg.points[col_idx].x = 0
-            #     pc_msg.points[col_idx].y = 0
-            #     pc_msg.points[col_idx].z = 0
-            #     pc_msg.channels[0].values[col_idx] = 0
+            else:
+                pc_msg.points[col_idx].x = 0
+                pc_msg.points[col_idx].y = 0
+                pc_msg.points[col_idx].z = 0
+                pc_msg.channels[0].values[col_idx] = 0
     pc_msg.header.stamp = rospy.Time.now()
     return pc_msg
