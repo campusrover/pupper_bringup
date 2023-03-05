@@ -22,7 +22,7 @@ def imgmsg_to_numpy(msg):
 
 def numpy_to_pcmsg(depth, amplitude):
     pc_msg = PointCloud()
-    pc_msg.points = list(Point32)*43200
+    pc_msg.points = list(Point32())*43200
     pc_msg.channels.values = [0]*43200
 
     for row_idx in range(180):
