@@ -29,7 +29,7 @@ class MobilenetDetector():
   def __init__(self, detection_key: str):
     self.key = detection_key
 
-    self.interpreter = tflite.Interpreter("pupper_bringup/src/models/tf2_ssd_mobilenet_v2_coco17_ptq_edgetpu.tflite",
+    self.interpreter = tflite.Interpreter("models/tf2_ssd_mobilenet_v2_coco17_ptq_edgetpu.tflite",
       experimental_delegates=[tflite.load_delegate('libedgetpu.so.1')])
 
     self.interpreter.allocate_tensors()
