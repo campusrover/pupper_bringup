@@ -23,7 +23,7 @@ def numpy_to_pcmsg(depth, amplitude):
     pc_msg = PointCloud()
     for row_idx in range(180):
         for col_idx in range(240):
-            if amplitude[col_idx] > 30:
+            if amplitude[col_idx].any() > 30:
                 zz = depth[col_idx]
                 pc_msg.points[col_idx].x = (((120 - col_idx)) / fx) * zz
                 pc_msg.points[col_idx].y = ((90 - row_idx) / fy) * zz
