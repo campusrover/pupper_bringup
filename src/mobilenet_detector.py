@@ -26,10 +26,10 @@ dir = "/home/pi/catkin_ws/src/pupper_bringup/models/tf2_ssd_mobilenet_v2_coco17_
 
 class MobilenetDetector():
 
-  def __init__(self, detection_key: str):
+  def __init__(self, detection_key: str, model_dir: str):
     self.key = detection_key
 
-    self.interpreter = tflite.Interpreter(dir, experimental_delegates=[tflite.load_delegate('libedgetpu.so.1')])
+    self.interpreter = tflite.Interpreter(model_dir, experimental_delegates=[tflite.load_delegate('libedgetpu.so.1')])
 
     self.interpreter.allocate_tensors()
     self.size = common.input_size(self.interpreter)
@@ -85,8 +85,9 @@ class MobilenetDetector():
 if __name__ == "__main__":
   # print(dir)
   rospy.init_node("detector")
+  model_dir = rospy.get_param("model_dir")
   rate = rospy.Rate(10)
-  detector = MobilenetDetector("person")
+  detector = MobilenetDetector("person", model_dir)
   while not rospy.is_shutdown():
     rate.sleep()
     detector.run_model_bboximg()
