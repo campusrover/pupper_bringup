@@ -1,7 +1,7 @@
 import rospy
 import numpy as np
 import cv2
-from sensor_msgs.msg import Image, CompressedImage, PointCloud
+from sensor_msgs.msg import Image, CompressedImage, PointCloud, Point32
 
 fx = 240 / (2 * np.tan(0.5 * np.pi * 64.3 / 180))
 fy = 180 / (2 * np.tan(0.5 * np.pi * 50.4 / 180))
@@ -21,6 +21,9 @@ def imgmsg_to_numpy(msg):
 
 def numpy_to_pcmsg(depth, amplitude):
     pc_msg = PointCloud()
+    pc_msg.points = list(Point32)*43200
+    pc_msg.channels.values = [0]*43200
+
     for row_idx in range(180):
         for col_idx in range(240):
             if amplitude[row_idx][col_idx]> 30:
