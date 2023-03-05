@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import serial
 import numpy as np
 import time
