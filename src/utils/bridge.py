@@ -1,7 +1,11 @@
 import rospy
 import numpy as np
 import cv2
-from sensor_msgs.msg import Image, CompressedImage
+from sensor_msgs.msg import Image, CompressedImage, PointCloud
+
+fx = 240 / (2 * np.tan(0.5 * np.pi * 64.3 / 180))
+fy = 180 / (2 * np.tan(0.5 * np.pi * 50.4 / 180))
+
 
 def numpy_to_imgmsg(im):
     msg = CompressedImage()
@@ -14,3 +18,21 @@ def numpy_to_imgmsg(im):
 def imgmsg_to_numpy(msg):
     np_arr = np.fromstring(msg.data, np.uint8)
     return cv2.imdecode(np_arr, cv2.IMREAD_COLOR)
+
+def numpy_to_pcmsg(depth, amplitude):
+    pc_msg = PointCloud()
+    for row_idx in range(180):
+        for col_idx in range(240):
+            if amplitude[col_idx] > 30:
+                zz = depth[col_idx]
+                pc_msg.points[col_idx].x = (((120 - col_idx)) / fx) * zz
+                pc_msg.points[col_idx].y = ((90 - row_idx) / fy) * zz
+                pc_msg.points[col_idx].z = zz
+                pc_msg.channels[0].values[col_idx] = depth[col_idx]
+            else:
+                pc_msg.points[col_idx].x = 0
+                pc_msg.points[col_idx].y = 0
+                pc_msg.points[col_idx].z = 0
+                pc_msg.channels[0].values[col_idx] = 0
+    pc_msg.header.stamp = rospy.Time.now()
+    return pc_msg

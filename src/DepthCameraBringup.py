@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 import rospy
-from sensor_msgs.msg import CompressedImage
-from utils.bridge import numpy_to_imgmsg
+from sensor_msgs.msg import CompressedImage, PointCloud
+from utils.bridge import numpy_to_imgmsg, numpy_to_pcmsg
 import sys
 import cv2
 import numpy as np
@@ -28,6 +28,7 @@ def process_frame(depth_buf: np.ndarray, amplitude_buf: np.ndarray) -> np.ndarra
 if __name__ == "__main__":
     rospy.init_node("pupper_depth_camera")
     pub = rospy.Publisher("/depth_cam/compressed", CompressedImage, queue_size=1)
+    point_cloud_pub = rospy.Publisher("/depth", PointCloud, queue_size=1)
     dev = rospy.get_param("dev")
     cam = ac.ArducamCamera()
     rate = rospy.Rate(30)
@@ -45,11 +46,14 @@ if __name__ == "__main__":
             depth_buf = frame.getDepthData()
             amplitude_buf = frame.getAmplitudeData()
             cam.releaseFrame(frame)
+            point_cloud_msg = numpy_to_pcmsg(depth_buf, amplitude_buf)
+            point_cloud_pub.publish(point_cloud_msg)
             amplitude_buf*=(255/1024)
             amplitude_buf = np.clip(amplitude_buf, 0, 255)
             img = process_frame(depth_buf,amplitude_buf)
             # rospy.loginfo(img.shape)
             pub.publish(numpy_to_imgmsg(img))
+            
         else:
             rospy.logwarn("Did not recieve frame")
     # finally:
