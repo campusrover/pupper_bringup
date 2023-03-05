@@ -18,19 +18,18 @@ from utils.coco_labels import COCO_LABELS
 
 import os
 
-dir = os.path.abspath(os.getcwd()) 
-rospy.loginfo(dir)
+# dir = os.path.abspath(os.getcwd()) 
+# rospy.loginfo(dir)
 
 
-
+dir = "/home/pi/catkin_ws/src/pupper_bringup/models/tf2_ssd_mobilenet_v2_coco17_ptq_edgetpu.tflite"
 
 class MobilenetDetector():
 
   def __init__(self, detection_key: str):
     self.key = detection_key
 
-    self.interpreter = tflite.Interpreter("models/tf2_ssd_mobilenet_v2_coco17_ptq_edgetpu.tflite",
-      experimental_delegates=[tflite.load_delegate('libedgetpu.so.1')])
+    self.interpreter = tflite.Interpreter(dir, experimental_delegates=[tflite.load_delegate('libedgetpu.so.1')])
 
     self.interpreter.allocate_tensors()
     self.size = common.input_size(self.interpreter)
