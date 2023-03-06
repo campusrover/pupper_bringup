@@ -10,7 +10,7 @@ from utils.bridge import numpy_to_imgmsg
 
 
 
-rospy.init_node("pupper_camera_bringup")
+rospy.init_node("pupper_camera")
 cam = cv2.VideoCapture(0)
 img_pub = rospy.Publisher("/image/compressed", CompressedImage, queue_size=10)
 rate = rospy.Rate(30)

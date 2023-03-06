@@ -8,6 +8,15 @@ fx = 240 / (2 * np.tan((0.5 * np.pi) * (64.3 / 180)))
 fy = 180 / (2 * np.tan((0.5 * np.pi) * (50.4 / 180)))
 
 
+def get_row_col_arrays(rows:int, cols:int):
+    row_arr = np.tile(np.arange(rows), (cols, 1)).T
+    col_arr = np.tile(np.arange(cols), (rows, 1))
+    return row_arr, col_arr
+
+col_arr = np.tile(np.arange(180), (240, 1)).T
+row_arr = np.tile(np.arange(240), (180, 1))
+
+
 def numpy_to_imgmsg(im):
     msg = CompressedImage()
     msg.header.stamp = rospy.Time.now()
