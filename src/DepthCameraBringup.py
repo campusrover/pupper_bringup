@@ -79,7 +79,7 @@ def process_frame(depth_buf: np.ndarray, amplitude_buf: np.ndarray) -> np.ndarra
     amplitude_buf[amplitude_buf<=7] = 0
     amplitude_buf[amplitude_buf>7] = 255
 
-    depth_buf = (1 - (depth_buf/MAX_DISTANCE)) * 255
+    depth_buf = (1 - (depth_buf/4)) * 255
     depth_buf = np.clip(depth_buf, 0, 255)
     result_frame = depth_buf.astype(np.uint8)  & amplitude_buf.astype(np.uint8)
     return result_frame
@@ -101,7 +101,7 @@ if __name__ == "__main__":
     if cam.start(ac.TOFOutput.DEPTH) != 0 :
         rospy.logerr("Failed to start camera")
     
-    cam.setControl(ac.TOFControl.RANG,MAX_DISTANCE)
+    cam.setControl(ac.TOFControl.RANG,4)
     while not rospy.is_shutdown():
         frame = cam.requestFrame(200)
         rate.sleep()
