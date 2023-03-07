@@ -3,7 +3,7 @@
 import rospy
 from sensor_msgs.msg import CompressedImage, Image, CameraInfo, PointCloud2, PointField
 from geometry_msgs.msg import Point32
-from utils.bridge import numpy_to_compressed_imgmsg
+# from utils.bridge import numpy_to_compressed_imgmsg
 from cv_bridge import CvBridge
 import sys
 import cv2
