@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 import rospy
 from sensor_msgs.msg import CompressedImage
-from utils.bridge import numpy_to_imgmsg
+from utils.bridge import numpy_to_compressed_imgmsg
 
 
 
@@ -19,6 +19,6 @@ rate = rospy.Rate(30)
 while not rospy.is_shutdown():
     rate.sleep()
     ret, image = cam.read()
-    img_pub.publish(numpy_to_imgmsg(image))
+    img_pub.publish(numpy_to_compressed_imgmsg(image))
 
 cam.release()

@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 
 import rospy
-from sensor_msgs.msg import CompressedImage, PointCloud2, PointField
+from sensor_msgs.msg import CompressedImage, Image, CameraInfo, PointCloud2, PointField
 from geometry_msgs.msg import Point32
-from utils.bridge import numpy_to_imgmsg, numpy_to_pcmsg
+from utils.bridge import numpy_to_compressed_imgmsg
+from cv_bridge import CvBridge
 import sys
 import cv2
 import numpy as np
@@ -35,6 +36,15 @@ class PointCloudComputer:
         # self.msg.points = [Point32()]*(self.nrows*self.ncols)
         # self.msg.channels = [ChannelFloat32()]
         # self.msg.channels[0].values = [0]*(self.nrows*self.ncols)
+
+
+    def camera_info_msg(self):
+        cinfo = CameraInfo()
+        cinfo.height = self.nrows
+        cinfo.width = self.ncols
+        # cinfo.distortion_model=[self.fx, 0, 0, 0, self.ncols/2]
+        cinfo.K = [self.fx, 0, self.ncols/2, 0, self.fy, self.nrows/2, 0, 0, 1]
+        return cinfo
 
 
 
@@ -87,8 +97,10 @@ def process_frame(depth_buf: np.ndarray, amplitude_buf: np.ndarray) -> np.ndarra
 
 if __name__ == "__main__":
     rospy.init_node("pupper_depth_camera")
-    pub = rospy.Publisher("/depth_cam/compressed", CompressedImage, queue_size=1)
+    pub = rospy.Publisher("camera/depth/image_raw", Image, queue_size=1)
+
     point_cloud_pub = rospy.Publisher("/pointcloud2", PointCloud2, queue_size=1)
+    bridge = CvBridge()
     dev = rospy.get_param("dev")
     cam = ac.ArducamCamera()
     rate = rospy.Rate(30)
@@ -115,7 +127,7 @@ if __name__ == "__main__":
             amplitude_buf = np.clip(amplitude_buf, 0, 255)
             img = process_frame(depth_buf,amplitude_buf)
             # rospy.loginfo(img.shape)
-            pub.publish(numpy_to_imgmsg(img))
+            pub.publish(bridge.cv2_to_imgmsg(img, encoding="mono16"))
             
         else:
             rospy.logwarn("Did not recieve frame")
