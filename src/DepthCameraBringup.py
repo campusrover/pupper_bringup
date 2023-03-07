@@ -129,7 +129,7 @@ if __name__ == "__main__":
             info = calc.camera_info_msg()
             img = process_frame(depth_buf,amplitude_buf)
             # rospy.loginfo(img.shape)
-            info_pub.publish(info)
+            # info_pub.publish(info)
             pub.publish(bridge.cv2_to_imgmsg(img, encoding="mono8"))
             
         else:
