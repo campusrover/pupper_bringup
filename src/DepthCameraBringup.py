@@ -44,6 +44,7 @@ class PointCloudComputer:
         cinfo.width = self.ncols
         # cinfo.distortion_model=[self.fx, 0, 0, 0, self.ncols/2]
         cinfo.K = [self.fx, 0, self.ncols/2, 0, self.fy, self.nrows/2, 0, 0, 1]
+        cinfo.header.stamp = rospy.Time().now()
         return cinfo
 
 
@@ -98,7 +99,7 @@ def process_frame(depth_buf: np.ndarray, amplitude_buf: np.ndarray) -> np.ndarra
 if __name__ == "__main__":
     rospy.init_node("pupper_depth_camera")
     pub = rospy.Publisher("camera/depth/image_raw", Image, queue_size=1)
-
+    info_pub = rospy.Publisher("camera_info", CameraInfo, queue_size=1)
     point_cloud_pub = rospy.Publisher("/pointcloud2", PointCloud2, queue_size=1)
     bridge = CvBridge()
     dev = rospy.get_param("dev")
@@ -125,8 +126,10 @@ if __name__ == "__main__":
             point_cloud_pub.publish(point_cloud_msg)
             amplitude_buf*=(255/1024)
             amplitude_buf = np.clip(amplitude_buf, 0, 255)
+            info = calc.camera_info_msg()
             img = process_frame(depth_buf,amplitude_buf)
             # rospy.loginfo(img.shape)
+            info_pub.publish(info)
             pub.publish(bridge.cv2_to_imgmsg(img, encoding="mono8"))
             
         else:
