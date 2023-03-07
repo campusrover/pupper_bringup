@@ -127,7 +127,7 @@ if __name__ == "__main__":
             amplitude_buf = np.clip(amplitude_buf, 0, 255)
             img = process_frame(depth_buf,amplitude_buf)
             # rospy.loginfo(img.shape)
-            pub.publish(bridge.cv2_to_imgmsg(img, encoding="mono16"))
+            pub.publish(bridge.cv2_to_imgmsg(img, encoding="mono8"))
             
         else:
             rospy.logwarn("Did not recieve frame")
