@@ -118,7 +118,7 @@ if __name__ == "__main__":
     while not rospy.is_shutdown():
         frame = cam.requestFrame(200)
         rate.sleep()
-        rospy.loginfo(str(frame.getFrameDataFormat()))
+        rospy.loginfo(str(frame.getFrameFormats()))
         if frame != None:
             depth_buf = frame.getDepthData()
             amplitude_buf = frame.getAmplitudeData()
