@@ -99,7 +99,7 @@ def process_frame(depth_buf: np.ndarray, amplitude_buf: np.ndarray) -> np.ndarra
 if __name__ == "__main__":
     rospy.init_node("pupper_depth_camera")
     pub = rospy.Publisher("camera/depth/image_raw", Image, queue_size=1)
-    info_pub = rospy.Publisher("camera_info", CameraInfo, queue_size=1)
+    info_pub = rospy.Publisher("camera/depth/camera_info", CameraInfo, queue_size=1)
     point_cloud_pub = rospy.Publisher("/pointcloud2", PointCloud2, queue_size=1)
     bridge = CvBridge()
     dev = rospy.get_param("dev")
@@ -118,7 +118,6 @@ if __name__ == "__main__":
     while not rospy.is_shutdown():
         frame = cam.requestFrame(200)
         rate.sleep()
-        rospy.loginfo(str(frame.getFrameFormats()))
         if frame != None:
             depth_buf = frame.getDepthData()
             amplitude_buf = frame.getAmplitudeData()
