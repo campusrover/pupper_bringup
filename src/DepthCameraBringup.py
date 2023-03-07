@@ -44,6 +44,7 @@ class PointCloudComputer:
         cinfo.width = self.ncols
         # cinfo.distortion_model=[self.fx, 0, 0, 0, self.ncols/2]
         cinfo.K = [self.fx, 0, self.ncols/2, 0, self.fy, self.nrows/2, 0, 0, 1]
+        cinfo.P = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0]
         cinfo.header.stamp = rospy.Time().now()
         return cinfo
 
