@@ -65,19 +65,24 @@ class PointCloudComputer:
         # z_arr = np.where(amplitude > 30, depth, self.zero)
         # x_arr = np.where(amplitude > 30, ((self.col_arr - (self.ncols/2)) / self.fx) * z_arr, self.zero)
         # y_arr = np.where(amplitude > 30, ((self.row_arr - (self.nrows/2)) / self.fy) * z_arr, self.zero)
-        z_arr = depth
-        x_arr = np.multiply(self.x_multiplier, depth)
-        y_arr = np.multiply(self.y_multiplier,depth)
+        # z_arr = depth
+        # x_arr = np.multiply(self.x_multiplier, depth)
+        # y_arr = np.multiply(self.y_multiplier,depth)
         # self.msg.data = list(x_arr.flatten()) + list(y_arr.flatten()) + list(z_arr.flatten())
         count = 0
         self.msg.channels[0].values = list(depth.flatten())
         for row_idx in range(self.nrows):
             for col_idx in range(self.ncols):
-                self.msg.points[count].x = x_arr[row_idx, col_idx]
-                self.msg.points[count].y = y_arr[row_idx, col_idx]
-                self.msg.points[count].z = z_arr[row_idx, col_idx]
+                if amplitude[row_idx, col_idx] > 30:
+                    self.msg.points[count].x = ((120-col_idx)/self.fx)*depth[row_idx, col_idx]
+                    self.msg.points[count].y = ((90-row_idx)/self.fy)*depth[row_idx, col_idx]
+                    self.msg.points[count].z = depth[row_idx, col_idx]
+                else:
+                    self.msg.points[count].x = 0
+                    self.msg.points[count].y = 0
+                    self.msg.points[count].z = 0
                 count = count + 1
-        rospy.loginfo(np.all(x_arr == x_arr[0,0]))
+        # rospy.loginfo(np.all(x_arr == x_arr[0,0]))
         self.msg.header.stamp = rospy.Time.now()
         self.msg.header.frame_id = "pointcloud"
         return self.msg
