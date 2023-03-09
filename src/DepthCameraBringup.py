@@ -57,9 +57,12 @@ class PointCloudComputer:
     '''
     def numpy_to_pcmsg(self, depth: np.ndarray, amplitude: np.ndarray) -> PointCloud2:
         valid_idxs = np.where(amplitude > 30)
-        z_arr = np.where(amplitude > 30, depth, self.zero)
-        x_arr = np.where(amplitude > 30, (((self.ncols/2) - self.col_arr) / self.fx) * z_arr, self.zero)
-        y_arr = np.where(amplitude > 30, (((self.nrows/2) - self.row_arr) / self.fy) * z_arr, self.zero)
+        # z_arr = np.where(amplitude > 30, depth, self.zero)
+        # x_arr = np.where(amplitude > 30, ((self.col_arr - (self.ncols/2)) / self.fx) * z_arr, self.zero)
+        # y_arr = np.where(amplitude > 30, ((self.row_arr - (self.nrows/2)) / self.fy) * z_arr, self.zero)
+        z_arr = depth
+        x_arr = ((self.col_arr - (self.ncols/2)) / self.fx) * z_arr
+        y_arr = ((self.row_arr - (self.nrows/2)) / self.fy) * z_arr
         # self.msg.data = list(x_arr.flatten()) + list(y_arr.flatten()) + list(z_arr.flatten())
         count = 0
         self.msg.channels[0].values = list(depth.flatten())
@@ -68,7 +71,7 @@ class PointCloudComputer:
                 self.msg.points[count].x = x_arr[row_idx, col_idx]
                 self.msg.points[count].y = y_arr[row_idx, col_idx]
                 self.msg.points[count].z = z_arr[row_idx, col_idx]
-                count += 1
+                count = count + 1
                 
         self.msg.header.stamp = rospy.Time.now()
         self.msg.header.frame_id = "pointcloud"
@@ -131,11 +134,11 @@ if __name__ == "__main__":
             amplitude_buf*=(255/1024)
             amplitude_buf = np.clip(amplitude_buf, 0, 255)
             # rospy.loginfo(str(depth_buf.dtype))
-            info = calc.camera_info_msg()
-            img = process_frame(depth_buf,amplitude_buf)
+            # info = calc.camera_info_msg()
+            # img = process_frame(depth_buf,amplitude_buf)
             # rospy.loginfo(img.shape)
-            info_pub.publish(info)
-            pub.publish(bridge.cv2_to_imgmsg(img, encoding="mono8"))
+            # info_pub.publish(info)
+            # pub.publish(bridge.cv2_to_imgmsg(img, encoding="mono8"))
             
         else:
             rospy.logwarn("Did not recieve frame")
