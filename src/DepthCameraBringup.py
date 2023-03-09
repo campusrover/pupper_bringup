@@ -144,7 +144,7 @@ if __name__ == "__main__":
             point_cloud_pub.publish(calc.msg)
             # rospy.loginfo(img.shape)
             # info_pub.publish(info)
-            pub.publish(bridge.cv2_to_imgmsg(img, encoding="mono16"))
+            pub.publish(bridge.cv2_to_imgmsg(img, encoding="mono8"))
             
         else:
             rospy.logwarn("Did not recieve frame")
