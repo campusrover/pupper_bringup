@@ -40,6 +40,7 @@ class PointCloudComputer:
         self.msg.points = [Point32()]*(self.nrows*self.ncols)
         self.msg.channels = [ChannelFloat32()]
         self.msg.channels[0].values = [0]*(self.nrows*self.ncols)
+        self.msg.channels[0].name = "intensities"
 
 
     def camera_info_msg(self):
