@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import rospy
-from sensor_msgs.msg import CompressedImage, Image, CameraInfo, PointCloud2, PointField
+from sensor_msgs.msg import CompressedImage, Image, CameraInfo, PointCloud2, PointField, PointCloud, ChannelFloat32
 from geometry_msgs.msg import Point32
 from utils.bridge import numpy_to_compressed_imgmsg
 from cv_bridge import CvBridge
@@ -22,20 +22,20 @@ class PointCloudComputer:
         self.row_arr = np.tile(np.arange(self.nrows), (self.ncols, 1)).T
         self.col_arr = np.tile(np.arange(self.ncols), (self.nrows, 1))
         self.zero = np.zeros((nrows, ncols))
-        self.msg = PointCloud2()
-        self.msg.height=1
-        self.msg.width=ncols*nrows
-        self.msg.fields = [PointField()]*3
-        self.msg.fields[0].name = "x"
-        self.msg.fields[1].name = "y"
-        self.msg.fields[2].name = "z"
-        for i in range(3):
-            self.msg.fields[i].offset = i*(nrows*ncols)
-            self.msg.fields[i].datatype=7
-            self.msg.fields[i].count = nrows*ncols
-        # self.msg.points = [Point32()]*(self.nrows*self.ncols)
-        # self.msg.channels = [ChannelFloat32()]
-        # self.msg.channels[0].values = [0]*(self.nrows*self.ncols)
+        self.msg = PointCloud()
+        # self.msg.height=1
+        # self.msg.width=ncols*nrows
+        # self.msg.fields = [PointField()]*3
+        # self.msg.fields[0].name = "x"
+        # self.msg.fields[1].name = "y"
+        # self.msg.fields[2].name = "z"
+        # for i in range(3):
+        #     self.msg.fields[i].offset = i*(nrows*ncols)
+        #     self.msg.fields[i].datatype=7
+        #     self.msg.fields[i].count = nrows*ncols
+        self.msg.points = [Point32()]*(self.nrows*self.ncols)
+        self.msg.channels = [ChannelFloat32()]
+        self.msg.channels[0].values = [0]*(self.nrows*self.ncols)
 
 
     def camera_info_msg(self):
@@ -60,15 +60,15 @@ class PointCloudComputer:
         z_arr = np.where(amplitude > 30, depth, self.zero)
         x_arr = np.where(amplitude > 30, (((self.ncols/2) - self.col_arr) / self.fx) * z_arr, self.zero)
         y_arr = np.where(amplitude > 30, (((self.nrows/2) - self.row_arr) / self.fy) * z_arr, self.zero)
-        self.msg.data = list(x_arr.flatten()) + list(y_arr.flatten()) + list(z_arr.flatten())
-        # count = 0
-        # self.msg.channels[0].values = list(depth.flatten())
-        # for row_idx in range(self.nrows):
-        #     for col_idx in range(self.ncols):
-        #         self.msg.points[count].x = x_arr[row_idx, col_idx]
-        #         self.msg.points[count].y = y_arr[row_idx, col_idx]
-        #         self.msg.points[count].z = z_arr[row_idx, col_idx]
-        #         count += 1
+        # self.msg.data = list(x_arr.flatten()) + list(y_arr.flatten()) + list(z_arr.flatten())
+        count = 0
+        self.msg.channels[0].values = list(depth.flatten())
+        for row_idx in range(self.nrows):
+            for col_idx in range(self.ncols):
+                self.msg.points[count].x = x_arr[row_idx, col_idx]
+                self.msg.points[count].y = y_arr[row_idx, col_idx]
+                self.msg.points[count].z = z_arr[row_idx, col_idx]
+                count += 1
                 
         self.msg.header.stamp = rospy.Time.now()
         self.msg.header.frame_id = "pointcloud"
@@ -104,7 +104,7 @@ if __name__ == "__main__":
     rospy.init_node("pupper_depth_camera")
     pub = rospy.Publisher("camera/depth/image_raw", Image, queue_size=1)
     info_pub = rospy.Publisher("camera/depth/camera_info", CameraInfo, queue_size=1)
-    point_cloud_pub = rospy.Publisher("/pointcloud2", PointCloud2, queue_size=1)
+    point_cloud_pub = rospy.Publisher("/points", PointCloud, queue_size=1)
     bridge = CvBridge()
     dev = rospy.get_param("dev")
     cam = ac.ArducamCamera()
