@@ -77,7 +77,7 @@ class PointCloudComputer:
                 self.msg.points[count].y = y_arr[row_idx, col_idx]
                 self.msg.points[count].z = z_arr[row_idx, col_idx]
                 count = count + 1
-                
+        rospy.loginfo(np.all(x_arr == x_arr[0,0]))
         self.msg.header.stamp = rospy.Time.now()
         self.msg.header.frame_id = "pointcloud"
         return self.msg
