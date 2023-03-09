@@ -9,11 +9,11 @@
 
 
     <!-- Convert to point cloud -->
-    <node pkg="nodelet" type="nodelet" name="depth_image_proc" args="load depth_image_proc/point_cloud_xyz standalone_nodelet --no-bond">
+    <node pkg="nodelet" type="nodelet" name="depth_image_proc" args="load depth_image_proc/point_cloud_xyz">
    
 
 
-        <remap from="depth_registered/image_rect" to="/camera/depth/image_raw"/>
+        <remap from="image_rect" to="/camera/depth/image_raw"/>
 
         <!-- Output: XYZ point cloud. If using PCL, subscribe as PointCloud<PointXYZ>.  (sensor_msgs/PointCloud2)  -->
         <remap from="depth_registered/points" to="/point_cloud/points"/>
