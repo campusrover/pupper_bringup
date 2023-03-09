@@ -61,8 +61,8 @@ class PointCloudComputer:
         # x_arr = np.where(amplitude > 30, ((self.col_arr - (self.ncols/2)) / self.fx) * z_arr, self.zero)
         # y_arr = np.where(amplitude > 30, ((self.row_arr - (self.nrows/2)) / self.fy) * z_arr, self.zero)
         z_arr = depth
-        x_arr = ((self.col_arr - (self.ncols/2)) / self.fx) * z_arr
-        y_arr = ((self.row_arr - (self.nrows/2)) / self.fy) * z_arr
+        x_arr = np.multiply(np.divide((self.col_arr - (self.ncols/2)) , self.fx), depth)
+        y_arr = np.multiply(np.divide((self.row_arr - (self.nrows/2)) , self.fy) ,depth)
         # self.msg.data = list(x_arr.flatten()) + list(y_arr.flatten()) + list(z_arr.flatten())
         count = 0
         self.msg.channels[0].values = list(depth.flatten())
