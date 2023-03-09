@@ -21,6 +21,7 @@ class PointCloudComputer:
 
         self.row_arr = np.tile(np.arange(self.nrows), (self.ncols, 1)).T
         self.col_arr = np.tile(np.arange(self.ncols), (self.nrows, 1))
+        print(self.row_arr)
         self.zero = np.zeros((nrows, ncols))
         self.msg = PointCloud()
         # self.msg.height=1
