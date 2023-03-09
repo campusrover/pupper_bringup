@@ -51,6 +51,7 @@ class PointCloudComputer:
         cinfo.K = [self.fx, 0, self.ncols/2, 0, self.fy, self.nrows/2, 0, 0, 1]
         cinfo.P = [self.fx, 0, self.ncols/2, 0, 0, self.fy, self.nrows/2, 0, 0, 0, 1, 0]
         cinfo.header.stamp = rospy.Time().now()
+        cinfo.header.frame_id = "camera"
         return cinfo
 
 
@@ -138,12 +139,12 @@ if __name__ == "__main__":
             amplitude_buf*=(255/1024)
             amplitude_buf = np.clip(amplitude_buf, 0, 255)
             # rospy.loginfo(str(depth_buf.dtype))
-            # info = calc.camera_info_msg()
+            info = calc.camera_info_msg()
             img = process_frame(depth_buf, amplitude_buf)
             # _, z, x, y = calc.numpy_to_pcmsg(img)
             # point_cloud_pub.publish(calc.msg)
             # rospy.loginfo(img.shape)
-            # info_pub.publish(info)
+            info_pub.publish(info)
             pub.publish(bridge.cv2_to_imgmsg(img, encoding="mono8"))
             
         else:
