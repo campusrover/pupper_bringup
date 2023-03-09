@@ -17,8 +17,8 @@ class PointCloudComputer:
     def __init__(self, nrows: int, ncols: int, vertical_fov: float, horizontal_fov: float):
         self.nrows = nrows
         self.ncols = ncols
-        self.fy = nrows/(2*np.tan((0.5*math.pi)*(vertical_fov/nrows)))
-        self.fx = ncols/(2*np.tan((0.5*math.pi)*(horizontal_fov/nrows)))
+        self.fy = nrows/(2*np.tan(0.5*math.pi*vertical_fov/nrows))
+        self.fx = ncols/(2*np.tan(0.5*math.pi*horizontal_fov/nrows))
 
         self.row_arr = np.tile(np.arange(self.nrows), (self.ncols, 1)).T
         self.col_arr = np.tile(np.arange(self.ncols), (self.nrows, 1))
