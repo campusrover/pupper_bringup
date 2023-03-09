@@ -22,7 +22,9 @@ class PointCloudComputer:
 
         self.row_arr = np.tile(np.arange(self.nrows), (self.ncols, 1)).T
         self.col_arr = np.tile(np.arange(self.ncols), (self.nrows, 1))
-        print(((self.row_arr*-1)+(self.nrows/2))/self.fy)
+        self.x_multiplier = ((self.col_arr*-1)+(self.ncols/2))/self.fx
+        self.y_multiplier = ((self.row_arr*-1)+(self.nrows/2))/self.fy
+
         self.zero = np.zeros((nrows, ncols))
         self.msg = PointCloud()
         # self.msg.height=1
@@ -63,8 +65,8 @@ class PointCloudComputer:
         # x_arr = np.where(amplitude > 30, ((self.col_arr - (self.ncols/2)) / self.fx) * z_arr, self.zero)
         # y_arr = np.where(amplitude > 30, ((self.row_arr - (self.nrows/2)) / self.fy) * z_arr, self.zero)
         z_arr = depth
-        x_arr = np.multiply(np.divide((self.col_arr - (self.ncols/2)) , self.fx), depth)
-        y_arr = np.multiply(np.divide((self.row_arr - (self.nrows/2)) , self.fy) ,depth)
+        x_arr = np.multiply(self.x_multiplier, depth)
+        y_arr = np.multiply(self.y_multiplier,depth)
         # self.msg.data = list(x_arr.flatten()) + list(y_arr.flatten()) + list(z_arr.flatten())
         count = 0
         self.msg.channels[0].values = list(depth.flatten())
