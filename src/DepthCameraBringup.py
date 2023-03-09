@@ -50,7 +50,6 @@ class PointCloudComputer:
         # cinfo.distortion_model=[self.fx, 0, 0, 0, self.ncols/2]
         cinfo.K = [self.fx, 0, self.ncols/2, 0, self.fy, self.nrows/2, 0, 0, 1]
         cinfo.P = [self.fx, 0, self.ncols/2, 0, 0, self.fy, self.nrows/2, 0, 0, 0, 1, 0]
-        cinfo.header.stamp = rospy.Time().now()
         # cinfo.header.frame_id = "camera"
         return cinfo
 
@@ -144,8 +143,10 @@ if __name__ == "__main__":
             # _, z, x, y = calc.numpy_to_pcmsg(img)
             # point_cloud_pub.publish(calc.msg)
             # rospy.loginfo(img.shape)
+            imgmsg = bridge.cv2_to_imgmsg(img, encoding="mono8")
+            info.header.stamp = imgmsg.header.stamp
             info_pub.publish(info)
-            pub.publish(bridge.cv2_to_imgmsg(img, encoding="mono8"))
+            pub.publish(imgmsg)
             
         else:
             rospy.logwarn("Did not recieve frame")
