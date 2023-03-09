@@ -61,10 +61,8 @@ class PointCloudComputer:
     a pointcloud relative to the camera. Returns the PointCloud ROS message as output
     '''
     def numpy_to_pcmsg(self, depth: np.ndarray, amplitude: np.ndarray) -> PointCloud2:
-        self.msg.points = [Point32()]*(self.nrows*self.ncols)
-        self.msg.channels = [ChannelFloat32()]
-        self.msg.channels[0].values = [0]*(self.nrows*self.ncols)
-        self.msg.channels[0].name = "intensities"        
+        rospy.loginfo(str(np.max(depth)))
+        rospy.loginfo(str(np.min(depth))) 
         # z_arr = np.where(amplitude > 30, depth, self.zero)
         # x_arr = np.where(amplitude > 30, ((self.col_arr - (self.ncols/2)) / self.fx) * z_arr, self.zero)
         # y_arr = np.where(amplitude > 30, ((self.row_arr - (self.nrows/2)) / self.fy) * z_arr, self.zero)
