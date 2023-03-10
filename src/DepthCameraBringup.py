@@ -139,7 +139,7 @@ if __name__ == "__main__":
             amplitude_buf = np.clip(amplitude_buf, 0, 255)
             # rospy.loginfo(str(depth_buf.dtype))
             info = calc.camera_info_msg()
-            rospy.loginfo(depth_buf.dtype)
+            rospy.loginfo(str(depth_buf.dtype))
             img = process_frame(depth_buf, amplitude_buf)
             # _, z, x, y = calc.numpy_to_pcmsg(img)
             # point_cloud_pub.publish(calc.msg)
