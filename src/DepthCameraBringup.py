@@ -146,6 +146,7 @@ if __name__ == "__main__":
             # rospy.loginfo(img.shape)
             imgmsg = bridge.cv2_to_imgmsg((depth_buf*1000).astype(np.uint16), encoding="mono16")
             info.header.stamp = imgmsg.header.stamp
+            info.header.frame_id = imgmsg.header.frame_id = "cam"
             info_pub.publish(info)
             pub.publish(imgmsg)
             
