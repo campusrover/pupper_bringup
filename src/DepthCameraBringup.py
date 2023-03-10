@@ -144,7 +144,7 @@ if __name__ == "__main__":
             # _, z, x, y = calc.numpy_to_pcmsg(img)
             # point_cloud_pub.publish(calc.msg)
             # rospy.loginfo(img.shape)
-            imgmsg = bridge.cv2_to_imgmsg((depth_buf*1000).astype(np.uint16), encoding="uint16")
+            imgmsg = bridge.cv2_to_imgmsg((depth_buf*1000).astype(np.uint16), encoding="passthrough")
             info.header.stamp = imgmsg.header.stamp
             info_pub.publish(info)
             pub.publish(imgmsg)
